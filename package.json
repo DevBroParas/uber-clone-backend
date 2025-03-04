@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "user-clone backend",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "node --watch index.js"
+    "dev": "node --watch server.js"
   },
   "keywords": [],
   "author": "",
