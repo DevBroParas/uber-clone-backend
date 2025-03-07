@@ -1,3 +1,4 @@
+import { BlacklistToken } from "../models/blacklistToken.model.js";
 import { User } from "../models/user.model.js";
 import { createUser } from "../services/user.services.js";
 import { validationResult } from "express-validator";
@@ -44,5 +45,23 @@ export const loginUser = async (req, res, next) => {
 
   const token = user.generateAuthToken();
 
+  res.cookie("token", token);
+
   res.status(200).json({ user, token });
+};
+
+//get user profile
+export const getUserProfile = async (req, res, next) => {
+  res.status(200).json(req.user);
+};
+
+// logout user
+export const logoutUser = async (req, res, next) => {
+  res.clearCookie("token");
+
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+
+  await BlacklistToken.create({ token });
+
+  res.status(200).json({ message: "Logged out successfully" });
 };
