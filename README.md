@@ -181,6 +181,59 @@ Example:
 }
 ```
 
+## User Profile Route
+
+### Endpoint
+
+`GET /api/user/profile`
+
+### Description
+
+This endpoint allows an authenticated user to retrieve their profile information.
+
+### Response
+
+- `200 OK`: If the user is successfully authenticated, the response will contain the user object.
+- `401 Unauthorized`: If the user is not authenticated, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "user": {
+    "_id": "60c72b2f9b1d4c3a4c8e4b8a",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+## User Logout Route
+
+### Endpoint
+
+`GET /api/user/logout`
+
+### Description
+
+This endpoint allows an authenticated user to log out by invalidating their authentication token.
+
+### Response
+
+- `200 OK`: If the user is successfully logged out, the response will contain a success message.
+- `401 Unauthorized`: If the user is not authenticated, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
 ## Setup
 
 ### Dependencies
@@ -224,10 +277,12 @@ Example:
 - `server.js`: Entry point of the application.
 - `app.js`: Express application setup.
 - `db/db.config.js`: Database connection configuration.
-- `routes/user.routes.js`: User registration and login routes.
-- `controller/user.controller.js`: User registration and login controllers.
+- `routes/user.routes.js`: User registration, login, profile, and logout routes.
+- `controller/user.controller.js`: User registration, login, profile, and logout controllers.
 - `services/user.services.js`: User service for creating a new user.
 - `models/user.model.js`: User model definition.
+- `models/blacklistToken.model.js`: Blacklist token model definition.
+- `middlewares/auth.middleware.js`: Middleware for user authentication.
 
 ## Contact
 
