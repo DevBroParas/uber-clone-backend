@@ -1,9 +1,15 @@
 import express from "express";
 import { body } from "express-validator";
-import { registerCaptain } from "../controller/captain.controller.js";
+import {
+  loginCaptain,
+  logoutCaptain,
+  profileCaptain,
+  registerCaptain,
+} from "../controller/captain.controller.js";
+import { authCaptain } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
-
+// register captain
 router.post(
   "/register",
   [
@@ -29,5 +35,23 @@ router.post(
   ],
   registerCaptain
 );
+
+// login captain
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("Please enter a valid email"),
+    body("password")
+      .isLength({ min: 5 })
+      .withMessage("Password must be at least 5 characters long"),
+  ],
+  loginCaptain
+);
+
+// profile captain
+router.get("/profile", authCaptain, profileCaptain);
+
+// logout captain
+router.get("/logout", authCaptain, logoutCaptain);
 
 export default router;
