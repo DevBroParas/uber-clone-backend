@@ -1,5 +1,4 @@
 import express from "express";
-import router from "./routes/user.routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -10,7 +9,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/user", router);
+// rouotes import
+import userRoutes from "./routes/user.routes.js";
+import captainRoutes from "./routes/captain.routes.js";
+
+// use routes
+app.use("/api/user", userRoutes);
+app.use("/api/captain", captainRoutes);
 
 app.get("/", (req, res) => res.send("Hello World!"));
 

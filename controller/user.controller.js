@@ -1,7 +1,7 @@
 import { BlacklistToken } from "../models/blacklistToken.model.js";
 import { User } from "../models/user.model.js";
-import { createUser } from "../services/user.services.js";
 import { validationResult } from "express-validator";
+import { createUser } from "../services/user.service.js";
 
 //register user
 export const registerUser = async (req, res, next) => {
@@ -9,7 +9,12 @@ export const registerUser = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   const { fullName, email, password } = req.body;
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    return res.status(400).json({ message: "User already exists" });
+  }
 
   const hashedPassword = await User.hashPassword(password);
 
