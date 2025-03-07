@@ -363,6 +363,159 @@ Example:
 }
 ```
 
+## Captain Login Route
+
+### Endpoint
+
+`POST /api/captain/login`
+
+### Description
+
+This endpoint allows an existing captain to log in by providing their email and password.
+
+### Request Body
+
+The request body should be a JSON object containing the following fields:
+
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain account. Must be at least 5 characters long.
+
+Example:
+
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "password123"
+}
+```
+
+### Response
+
+- `200 OK`: If the captain is successfully authenticated, the response will contain the captain object and an authentication token.
+- `400 Bad Request`: If there are validation errors, the response will contain an array of error messages.
+- `401 Unauthorized`: If the email or password is incorrect, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "captain": {
+    "_id": "60c72b2f9b1d4c3a4c8e4b8a",
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Validation
+
+The following validations are applied to the request body:
+
+- `email`: Must be a valid email format.
+- `password`: Must be at least 5 characters long.
+
+### Error Handling
+
+If the request body fails validation, the response will contain an array of error messages indicating which fields are invalid.
+
+Example:
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Please enter a valid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 5 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+If the email or password is incorrect, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+## Captain Profile Route
+
+### Endpoint
+
+`GET /api/captain/profile`
+
+### Description
+
+This endpoint allows an authenticated captain to retrieve their profile information.
+
+### Response
+
+- `200 OK`: If the captain is successfully authenticated, the response will contain the captain object.
+- `401 Unauthorized`: If the captain is not authenticated, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "captain": {
+    "_id": "60c72b2f9b1d4c3a4c8e4b8a",
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+## Captain Logout Route
+
+### Endpoint
+
+`GET /api/captain/logout`
+
+### Description
+
+This endpoint allows an authenticated captain to log out by invalidating their authentication token.
+
+### Response
+
+- `200 OK`: If the captain is successfully logged out, the response will contain a success message.
+- `401 Unauthorized`: If the captain is not authenticated, the response will contain an error message.
+
+Example:
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
 ## Setup
 
 ### Dependencies
@@ -407,15 +560,15 @@ Example:
 - `app.js`: Express application setup.
 - `db/db.config.js`: Database connection configuration.
 - `routes/user.routes.js`: User registration, login, profile, and logout routes.
-- `routes/captain.routes.js`: Captain registration route.
+- `routes/captain.routes.js`: Captain registration, login, profile, and logout routes.
 - `controller/user.controller.js`: User registration, login, profile, and logout controllers.
-- `controller/captain.controller.js`: Captain registration controller.
+- `controller/captain.controller.js`: Captain registration, login, profile, and logout controllers.
 - `services/user.services.js`: User service for creating a new user.
 - `services/captain.services.js`: Captain service for creating a new captain.
 - `models/user.model.js`: User model definition.
 - `models/captain.model.js`: Captain model definition.
 - `models/blacklistToken.model.js`: Blacklist token model definition.
-- `middlewares/auth.middleware.js`: Middleware for user authentication.
+- `middlewares/auth.middleware.js`: Middleware for user and captain authentication.
 
 ## Contact
 
